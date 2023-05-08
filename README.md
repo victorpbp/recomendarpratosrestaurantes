@@ -22,7 +22,8 @@ A cada segunda semana, a reunião de Segunda envolverá um overview de tudo que 
 Ferramentas, Linguagem e Framework
 -
 Notion será utilizado pelo seu Kanban, valorizando a divisão prévia de issues e epics e a traçagem de rotas a serem tomadas para se finalizar o produto de modo a preservar a fluidez e minimizar bloqueios por conta de imprevistos e ademais.  
-Link do Notion: A ser definido
+[Link do Notion](https://malucosta.notion.site/Projeto-Final-Engenharia-de-Software-II-ee4603c3ca574a8da0f0dd79b8194814)  
+[Requisitos do Sistema em formato de User Stories - Entregável 1](https://malucosta.notion.site/bfbbc84d167f4c76adc4372b037c6d99?v=ad0999c0c4894c53926fb5595755e0c3)
 
 Linguagem: Typescript v5.0
 
