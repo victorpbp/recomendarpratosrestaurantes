@@ -40,7 +40,7 @@ A cada segunda semana, a reunião de Segunda envolverá um overview de tudo que 
 [Requisitos do Sistema em formato de User Stories](https://malucosta.notion.site/bfbbc84d167f4c76adc4372b037c6d99?v=ad0999c0c4894c53926fb5595755e0c3)
 
 # Sobre o MVP
-A ser definido
+Será um sistema o qual restaurantes podem se cadastrar, juntamente a seus cardápios e pratos, com todas as suas informações. Assim, um potencial cliente pode acessar a aplicação, sem se cadastrar, e escrever sobre o que procura para comer, assim, será passado por um algoritmo pré-existente para selecionar recomendações para esse cliente baseado no que escreveu.
 
 # Papéis de membros na equipe:
 **Alexandre Coelho** - Líder QA, Desenvolvedor  
