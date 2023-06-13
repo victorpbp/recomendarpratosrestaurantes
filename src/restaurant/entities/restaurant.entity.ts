@@ -1,20 +1,13 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { HydratedDocument } from 'mongoose';
+import { MenuItem } from './menuItem';
 
 export type RestaurantDocument = HydratedDocument<Restaurant>;
-
-interface MenuItem {
-  id: string;
-  name: string;
-  ingredients: string[];
-  kcal: number;
-  isActive: boolean;
-}
 
 @Schema()
 export class Restaurant {
   @Prop()
-  id: string;
+  cnpj: string;
 
   @Prop()
   name: string;
