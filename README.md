@@ -38,6 +38,8 @@ A cada segunda semana, a reunião de Segunda envolverá um overview de tudo que 
 # Entregáveis
 ### Entregável 1:
 [Requisitos do Sistema em formato de User Stories](https://malucosta.notion.site/bfbbc84d167f4c76adc4372b037c6d99?v=ad0999c0c4894c53926fb5595755e0c3)
+### Entregável 2:
+[Diagrama de Casos de Uso e Diagrama de Classes](https://malucosta.notion.site/4697fe5fd26e481886667c229d29df14?v=1302d5ccebd14456bd30115c8c15a2ec)
 
 # Sobre o MVP
 Será um sistema o qual restaurantes podem se cadastrar, juntamente a seus cardápios e pratos, com todas as suas informações. Assim, um potencial cliente pode acessar a aplicação, sem se cadastrar, e escrever sobre o que procura para comer, assim, será passado por um algoritmo pré-existente para selecionar recomendações para esse cliente baseado no que escreveu.
