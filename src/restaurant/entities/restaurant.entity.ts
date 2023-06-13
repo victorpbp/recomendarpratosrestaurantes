@@ -7,7 +7,7 @@ export type RestaurantDocument = HydratedDocument<Restaurant>;
 @Schema()
 export class Restaurant {
   @Prop()
-  id: string;
+  cnpj: string;
 
   @Prop()
   name: string;

@@ -6,6 +6,7 @@ import { Model } from 'mongoose';
 import { Restaurant } from './entities/restaurant.entity';
 import { MenuItem } from './entities/menuItem';
 import { v4 as uuidv4 } from 'uuid';
+import { formatCNPJ } from './helpers/cnpjFormatter';
 
 @Injectable()
 export class RestaurantService {
@@ -15,8 +16,11 @@ export class RestaurantService {
 
   async create(createRestaurantDto: CreateRestaurantDto) {
     // TODO: posteriormente mudar para extrair a informação a partir do token
+    const cnpj = formatCNPJ(createRestaurantDto.cnpj);
+    if (cnpj.length != 14) throw new Error('Invalid CNPJ');
+
     const restaurant = await this.restaurantModel
-      .findOne({ name: createRestaurantDto.name.toLowerCase() })
+      .findOne({ cnpj: cnpj })
       .exec();
 
     if (restaurant) throw new Error('Restaurant already exists');
@@ -33,7 +37,7 @@ export class RestaurantService {
     });
 
     const createdRestaurant = new this.restaurantModel({
-      id: uuidv4(),
+      cnpj: cnpj,
       name: createRestaurantDto.name.toLowerCase(),
       menu: menuItems,
       isActive: true,

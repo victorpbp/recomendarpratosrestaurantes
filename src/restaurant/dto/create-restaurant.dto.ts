@@ -5,10 +5,16 @@ import {
   IsNotEmpty,
   IsNumber,
   IsString,
+  Length,
   ValidateNested,
 } from 'class-validator';
 
 export class CreateRestaurantDto {
+  @IsString()
+  @IsNotEmpty()
+  @Length(14, 14, { message: 'O CNPJ deve ter exatamente 14 caracteres.' })
+  cnpj: string;
+
   @IsString()
   @IsNotEmpty()
   name: string;
