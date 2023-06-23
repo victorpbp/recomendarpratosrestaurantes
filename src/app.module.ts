@@ -5,7 +5,13 @@ import { RestaurantModule } from './restaurant/restaurant.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { env } from 'process';
 @Module({
-  imports: [RestaurantModule, MongooseModule.forRoot(env.database_url)],
+  imports: [
+    RestaurantModule,
+    MongooseModule.forRoot('', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
