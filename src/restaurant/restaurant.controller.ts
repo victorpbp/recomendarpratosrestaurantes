@@ -27,7 +27,7 @@ export class RestaurantController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.restaurantService.findOne(+id);
+    return this.restaurantService.findOne(id);
   }
 
   @Patch(':id')
@@ -35,11 +35,46 @@ export class RestaurantController {
     @Param('id') id: string,
     @Body() updateRestaurantDto: UpdateRestaurantDto,
   ) {
-    return this.restaurantService.update(+id, updateRestaurantDto);
+    return this.restaurantService.update(id, updateRestaurantDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.restaurantService.remove(+id);
+    return this.restaurantService.remove(id);
+  }
+
+  @Patch('activate/:id')
+  activateRestaurant(
+    @Param('id') id: string,
+  ) {
+    return this.restaurantService.activateRestaurant(id);
+  }
+
+  @Patch('deactivate/:id')
+  deactivateRestaurant(
+    @Param('id') id: string,
+  ) {
+    return this.restaurantService.deactivateRestaurant(id);
+  }
+
+  @Patch('activate/menuitem/:id')
+  activateMenuItem(
+    @Param('id') id: string,
+  ) {
+    return this.restaurantService.activateMenuItem(id);
+  }
+
+  @Patch('deactivate/menuitem/:id')
+  deactivateMenuItem(
+    @Param('id') id: string,
+  ) {
+    return this.restaurantService.deactivateMenuItem(id);
+  }
+
+  @Get('')
+  getRecommendation(
+   @Body() input: string,
+  ) {
+    return this.restaurantService.getRecommendation(input);
   }
 }
