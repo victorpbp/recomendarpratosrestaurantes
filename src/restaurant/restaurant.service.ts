@@ -47,18 +47,14 @@ export class RestaurantService {
   }
 
   async findAll() {
-    const restaurant = await this.restaurantModel
-      .find({})
-      .exec();
+    const restaurant = await this.restaurantModel.find({}).exec();
 
     return restaurant;
   }
 
   async findOne(id: string) {
-    const restaurant = await this.restaurantModel
-      .findOne({ _id: id })
-      .exec();
-    
+    const restaurant = await this.restaurantModel.findOne({ _id: id }).exec();
+
     return restaurant;
   }
 
@@ -82,33 +78,29 @@ export class RestaurantService {
   }
 
   async activateRestaurant(id: string) {
-    const restaurant = await this.restaurantModel
-      .findOne({ _id: id })
-      .exec();
-    
-    if(!restaurant) throw new Error('Restaurant not found');
+    const restaurant = await this.restaurantModel.findOne({ _id: id }).exec();
 
-    if(restaurant.isActive) throw new Error('Restaurant already activated');
+    if (!restaurant) throw new Error('Restaurant not found');
+
+    if (restaurant.isActive) throw new Error('Restaurant already activated');
 
     const filter = { _id: id };
     const flag = { isActive: true };
-    const update = await this.restaurantModel.findOneAndUpdate(filter,flag);
+    const update = await this.restaurantModel.findOneAndUpdate(filter, flag);
 
     return update;
   }
 
   async deactivateRestaurant(id: string) {
-    const restaurant = await this.restaurantModel
-      .findOne({ _id: id })
-      .exec();
-    
-    if(!restaurant) throw new Error('Restaurant not found');
+    const restaurant = await this.restaurantModel.findOne({ _id: id }).exec();
 
-    if(!restaurant.isActive) throw new Error('Restaurant already deactivated');
+    if (!restaurant) throw new Error('Restaurant not found');
+
+    if (!restaurant.isActive) throw new Error('Restaurant already deactivated');
 
     const filter = { _id: id };
     const flag = { isActive: false };
-    const update = await this.restaurantModel.findOneAndUpdate(filter,flag);
+    const update = await this.restaurantModel.findOneAndUpdate(filter, flag);
 
     return update;
   }
@@ -116,48 +108,42 @@ export class RestaurantService {
   async activateMenuItem(id: string) {
     return this.restaurantModel.updateOne(
       {
-        'menu': {
-          '$elemMatch': {
-            'id': id,
-          }
-        }
+        menu: {
+          $elemMatch: {
+            id: id,
+          },
+        },
       },
       {
         $set: {
-          "menu.$[inner].isActive": true,
-        }
+          'menu.$[inner].isActive': true,
+        },
       },
       {
-        arrayFilters: [
-          {"inner.id": id}
-      ]
-      }
+        arrayFilters: [{ 'inner.id': id }],
+      },
     );
   }
 
   async deactivateMenuItem(id: string) {
     return this.restaurantModel.updateOne(
       {
-        'menu': {
-          '$elemMatch': {
-            'id': id,
-          }
-        }
+        menu: {
+          $elemMatch: {
+            id: id,
+          },
+        },
       },
       {
         $set: {
-          "menu.$[inner].isActive": false,
-        }
+          'menu.$[inner].isActive': false,
+        },
       },
       {
-        arrayFilters: [
-          {"inner.id": id}
-      ]
-      }
+        arrayFilters: [{ 'inner.id': id }],
+      },
     );
   }
 
-  getRecommendation(input: string){
-    
-  }
+  getRecommendation(input: string) {}
 }
