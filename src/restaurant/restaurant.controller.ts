@@ -44,37 +44,27 @@ export class RestaurantController {
   }
 
   @Patch('activate/:id')
-  activateRestaurant(
-    @Param('id') id: string,
-  ) {
+  activateRestaurant(@Param('id') id: string) {
     return this.restaurantService.activateRestaurant(id);
   }
 
   @Patch('deactivate/:id')
-  deactivateRestaurant(
-    @Param('id') id: string,
-  ) {
+  deactivateRestaurant(@Param('id') id: string) {
     return this.restaurantService.deactivateRestaurant(id);
   }
 
   @Patch('activate/menuitem/:id')
-  activateMenuItem(
-    @Param('id') id: string,
-  ) {
+  activateMenuItem(@Param('id') id: string) {
     return this.restaurantService.activateMenuItem(id);
   }
 
   @Patch('deactivate/menuitem/:id')
-  deactivateMenuItem(
-    @Param('id') id: string,
-  ) {
+  deactivateMenuItem(@Param('id') id: string) {
     return this.restaurantService.deactivateMenuItem(id);
   }
 
   @Get('')
-  getRecommendation(
-   @Body() input: string,
-  ) {
+  getRecommendation(@Body() input: string) {
     return this.restaurantService.getRecommendation(input);
   }
 }
