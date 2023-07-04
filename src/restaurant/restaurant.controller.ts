@@ -10,6 +10,7 @@ import {
 import { RestaurantService } from './restaurant.service';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
+import { UpdateMenuItemDto } from './dto/update-menuitem.dto';
 
 @Controller('restaurant')
 export class RestaurantController {
@@ -31,11 +32,13 @@ export class RestaurantController {
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateRestaurantDto: UpdateRestaurantDto,
-  ) {
-    return this.restaurantService.update(id, updateRestaurantDto);
+  update(@Param('id') id: string, @Body() updateRestaurantDto: UpdateRestaurantDto) {
+    return this.restaurantService.updateRestaurant(id, updateRestaurantDto);
+  }
+
+  @Patch('menuitem/:id')
+  updateMenuItem(@Param('id') id: string, @Body() updateMenuItemDto: UpdateMenuItemDto) {
+    return this.restaurantService.updateMenuItem(id, updateMenuItemDto);
   }
 
   @Delete(':id')
@@ -44,37 +47,27 @@ export class RestaurantController {
   }
 
   @Patch('activate/:id')
-  activateRestaurant(
-    @Param('id') id: string,
-  ) {
+  activateRestaurant(@Param('id') id: string) {
     return this.restaurantService.activateRestaurant(id);
   }
 
   @Patch('deactivate/:id')
-  deactivateRestaurant(
-    @Param('id') id: string,
-  ) {
+  deactivateRestaurant(@Param('id') id: string) {
     return this.restaurantService.deactivateRestaurant(id);
   }
 
   @Patch('activate/menuitem/:id')
-  activateMenuItem(
-    @Param('id') id: string,
-  ) {
+  activateMenuItem(@Param('id') id: string) {
     return this.restaurantService.activateMenuItem(id);
   }
 
   @Patch('deactivate/menuitem/:id')
-  deactivateMenuItem(
-    @Param('id') id: string,
-  ) {
+  deactivateMenuItem(@Param('id') id: string) {
     return this.restaurantService.deactivateMenuItem(id);
   }
 
-  @Get('')
-  getRecommendation(
-   @Body() input: string,
-  ) {
+  @Get('recommend')
+  getRecommendation(@Body() input: string) {
     return this.restaurantService.getRecommendation(input);
   }
 }

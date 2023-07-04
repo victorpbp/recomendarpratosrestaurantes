@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
+import { UpdateMenuItemDto } from './dto/update-menuitem.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Restaurant } from './entities/restaurant.entity';
@@ -62,19 +63,54 @@ export class RestaurantService {
     return restaurant;
   }
 
-  async update(id: string, updateRestaurantDto: UpdateRestaurantDto) {
+  async updateRestaurant(id: string, updateRestaurantDto: UpdateRestaurantDto) {
     const restaurant = await this.restaurantModel
-      .findOne({ name: UpdateRestaurantDto.name })
+      .findOne({ _id: id })
       .exec();
 
     if (!restaurant) throw new Error('Restaurant not found');
 
+    const name = updateRestaurantDto.name;
+    const cnpj = updateRestaurantDto.cnpj;
+
     restaurant.menu.forEach((menuItem) => {
       if (updateRestaurantDto.menu.map((x) => x.name).includes(menuItem.name))
-        throw new Error('Menu item already exists. ');
+        throw new Error(`Menu item ${menuItem.name} already exists`);
     });
 
-    return `This action updates a #${id} restaurant`;
+    let menuItems: MenuItem[] = updateRestaurantDto.menu.map((item) => {
+      const menuItem: MenuItem = {
+        id: uuidv4(),
+        name: item.name.toLowerCase(),
+        ingredients: item.ingredients.map((ing) => ing.toLowerCase()),
+        kcal: item.kcal,
+        isActive: item.isActive,
+      };
+      return menuItem;
+    });
+
+    restaurant.menu.forEach((menuItem) => { menuItems.push(menuItem) });
+    
+    const update = await this.restaurantModel.updateOne({ _id: id }, {
+      name: name,
+      cnpj: cnpj,
+      menu: menuItems
+    });
+
+    return update;
+  }
+
+  async updateMenuItem(id: string, updateMenuItemDto: UpdateMenuItemDto) {
+    return this.restaurantModel.updateOne(
+      { menu: { $elemMatch: {id: id} } },
+      { $set: {
+          'menu.$[inner].name': updateMenuItemDto.name,
+          'menu.$[inner].ingredients': updateMenuItemDto.ingredients,
+          'menu.$[inner].kcal': updateMenuItemDto.kcal,
+        }
+      },
+      { arrayFilters: [ { "inner.id": id } ] }
+    );
   }
 
   remove(id: string) {
@@ -92,7 +128,7 @@ export class RestaurantService {
 
     const filter = { _id: id };
     const flag = { isActive: true };
-    const update = await this.restaurantModel.findOneAndUpdate(filter,flag);
+    const update = await this.restaurantModel.findOneAndUpdate(filter, flag);
 
     return update;
   }
@@ -108,53 +144,45 @@ export class RestaurantService {
 
     const filter = { _id: id };
     const flag = { isActive: false };
-    const update = await this.restaurantModel.findOneAndUpdate(filter,flag);
+    const update = await this.restaurantModel.findOneAndUpdate(filter, flag);
 
     return update;
   }
 
   async activateMenuItem(id: string) {
-    return this.restaurantModel.updateOne(
-      {
-        'menu': {
-          '$elemMatch': {
-            'id': id,
-          }
-        }
-      },
-      {
-        $set: {
-          "menu.$[inner].isActive": true,
-        }
-      },
-      {
-        arrayFilters: [
-          {"inner.id": id}
-      ]
-      }
+    const menuItem = await this.restaurantModel
+      .findOne({ menu: { $elemMatch: {id: id} } })
+      .exec();
+
+    // return menuItem;
+
+    if(!menuItem) throw new Error('Menu item not found');
+
+    const activation = await this.restaurantModel.updateOne(
+      { menu: { $elemMatch: {id: id} } },
+      { $set: { "menu.$[inner].isActive": true } },
+      { arrayFilters: [ { "inner.id": id } ] }
     );
+
+    return activation;
   }
 
   async deactivateMenuItem(id: string) {
-    return this.restaurantModel.updateOne(
-      {
-        'menu': {
-          '$elemMatch': {
-            'id': id,
-          }
-        }
-      },
-      {
-        $set: {
-          "menu.$[inner].isActive": false,
-        }
-      },
-      {
-        arrayFilters: [
-          {"inner.id": id}
-      ]
-      }
+    const menuItem = await this.restaurantModel
+      .findOne({ menu: { $elemMatch: {id: id} } })
+      .exec();
+
+    // return menuItem;
+
+    if(!menuItem) throw new Error('Menu item not found');
+    
+    const deactivation = await this.restaurantModel.updateOne(
+      { menu: { $elemMatch: {id: id} } },
+      { $set: { "menu.$[inner].isActive": false } },
+      { arrayFilters: [ { "inner.id": id } ] }
     );
+
+    return deactivation;
   }
 
   getRecommendation(input: string){
