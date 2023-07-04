@@ -48,18 +48,14 @@ export class RestaurantService {
   }
 
   async findAll() {
-    const restaurant = await this.restaurantModel
-      .find({})
-      .exec();
+    const restaurant = await this.restaurantModel.find({}).exec();
 
     return restaurant;
   }
 
   async findOne(id: string) {
-    const restaurant = await this.restaurantModel
-      .findOne({ _id: id })
-      .exec();
-    
+    const restaurant = await this.restaurantModel.findOne({ _id: id }).exec();
+
     return restaurant;
   }
 
@@ -118,13 +114,11 @@ export class RestaurantService {
   }
 
   async activateRestaurant(id: string) {
-    const restaurant = await this.restaurantModel
-      .findOne({ _id: id })
-      .exec();
-    
-    if(!restaurant) throw new Error('Restaurant not found');
+    const restaurant = await this.restaurantModel.findOne({ _id: id }).exec();
 
-    if(restaurant.isActive) throw new Error('Restaurant already activated');
+    if (!restaurant) throw new Error('Restaurant not found');
+
+    if (restaurant.isActive) throw new Error('Restaurant already activated');
 
     const filter = { _id: id };
     const flag = { isActive: true };
@@ -134,13 +128,11 @@ export class RestaurantService {
   }
 
   async deactivateRestaurant(id: string) {
-    const restaurant = await this.restaurantModel
-      .findOne({ _id: id })
-      .exec();
-    
-    if(!restaurant) throw new Error('Restaurant not found');
+    const restaurant = await this.restaurantModel.findOne({ _id: id }).exec();
 
-    if(!restaurant.isActive) throw new Error('Restaurant already deactivated');
+    if (!restaurant) throw new Error('Restaurant not found');
+
+    if (!restaurant.isActive) throw new Error('Restaurant already deactivated');
 
     const filter = { _id: id };
     const flag = { isActive: false };
@@ -153,8 +145,6 @@ export class RestaurantService {
     const menuItem = await this.restaurantModel
       .findOne({ menu: { $elemMatch: {id: id} } })
       .exec();
-
-    // return menuItem;
 
     if(!menuItem) throw new Error('Menu item not found');
 
@@ -172,8 +162,6 @@ export class RestaurantService {
       .findOne({ menu: { $elemMatch: {id: id} } })
       .exec();
 
-    // return menuItem;
-
     if(!menuItem) throw new Error('Menu item not found');
     
     const deactivation = await this.restaurantModel.updateOne(
@@ -185,7 +173,5 @@ export class RestaurantService {
     return deactivation;
   }
 
-  getRecommendation(input: string){
-    
-  }
+  getRecommendation(input: string) {}
 }
