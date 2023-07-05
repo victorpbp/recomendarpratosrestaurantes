@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
 import { UpdateMenuItemDto } from './dto/update-menuitem.dto';
+import { MenuFilters } from '../recomendation/IMenuFilters';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Restaurant } from './entities/restaurant.entity';
@@ -173,15 +174,12 @@ export class RestaurantService {
     return deactivation;
   }
 
-  getRecommendation(prompt: {data: string}) {
-    const str = prompt.data;
-    const keywords = str.split(" ");
-    
-    if (keywords.includes('sobremesa') || keywords.includes('doce')){
+  getRecommendation(prompt: MenuFilters) {    
+    if (prompt.cuisine == 'Brazilian' || prompt.cravings == 'Sweet'){
       return 'a6dc602f-e822-42b3-beb2-9bf08d80aee9';
-    } else if (keywords.includes('mexicana') || keywords.includes('apimentada')){
+    } else if (prompt.cuisine == 'Mexican' || prompt.cravings == 'Spicy'){
       return '3846f011-5081-4a48-a9d0-843a03ba266d';
-    } else if (keywords.includes('massa') || keywords.includes('salgada')){
+    } else if (prompt.cuisine == 'Italian' || prompt.cravings == 'Savory'){
       return '2d89a5c9-677c-437c-a00d-c0d92cd72585';
     }
 

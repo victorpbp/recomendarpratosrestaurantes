@@ -11,6 +11,7 @@ import { RestaurantService } from './restaurant.service';
 import { CreateRestaurantDto } from './dto/create-restaurant.dto';
 import { UpdateRestaurantDto } from './dto/update-restaurant.dto';
 import { UpdateMenuItemDto } from './dto/update-menuitem.dto';
+import { MenuFilters } from '../recomendation/IMenuFilters';
 
 @Controller('restaurant')
 export class RestaurantController {
@@ -22,7 +23,7 @@ export class RestaurantController {
   }
 
   @Get('recommend')
-  getRecommendation(@Body() prompt: {data: string}) {
+  getRecommendation(@Body() prompt: MenuFilters) {
     return this.restaurantService.getRecommendation(prompt);
   }
 
