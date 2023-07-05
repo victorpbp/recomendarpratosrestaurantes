@@ -173,5 +173,18 @@ export class RestaurantService {
     return deactivation;
   }
 
-  getRecommendation(input: string) {}
+  getRecommendation(prompt: {data: string}) {
+    const str = prompt.data;
+    const keywords = str.split(" ");
+    
+    if (keywords.includes('sobremesa') || keywords.includes('doce')){
+      return 'a6dc602f-e822-42b3-beb2-9bf08d80aee9';
+    } else if (keywords.includes('mexicana') || keywords.includes('apimentada')){
+      return '3846f011-5081-4a48-a9d0-843a03ba266d';
+    } else if (keywords.includes('massa') || keywords.includes('salgada')){
+      return '2d89a5c9-677c-437c-a00d-c0d92cd72585';
+    }
+
+    return 'Couldnt find a proper dish';
+  }
 }

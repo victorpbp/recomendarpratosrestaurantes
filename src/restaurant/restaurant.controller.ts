@@ -21,6 +21,11 @@ export class RestaurantController {
     return this.restaurantService.create(createRestaurantDto);
   }
 
+  @Get('recommend')
+  getRecommendation(@Body() prompt: {data: string}) {
+    return this.restaurantService.getRecommendation(prompt);
+  }
+
   @Get()
   findAll() {
     return this.restaurantService.findAll();
@@ -66,8 +71,4 @@ export class RestaurantController {
     return this.restaurantService.deactivateMenuItem(id);
   }
 
-  @Get('recommend')
-  getRecommendation(@Body() input: string) {
-    return this.restaurantService.getRecommendation(input);
-  }
 }
