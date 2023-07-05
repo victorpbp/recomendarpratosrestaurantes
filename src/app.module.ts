@@ -3,9 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { RestaurantModule } from './restaurant/restaurant.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { env } from 'process';
+
 @Module({
-  imports: [RestaurantModule, MongooseModule.forRoot('mongodb+srv://food:JzVsqO9yb7xIRRZh@food.k0jbd4w.mongodb.net/?retryWrites=true&w=majority')],
+  imports: [RestaurantModule, MongooseModule.forRoot('mongodb+srv://food:4mHXvpxB22DoveHC@food.k0jbd4w.mongodb.net/?retryWrites=true&w=majority')],
   controllers: [AppController],
   providers: [AppService],
 })

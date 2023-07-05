@@ -60,6 +60,11 @@ export class RestaurantService {
     return restaurant;
   }
 
+  async findOneMenuItem(restaurantId: string, id: string) {
+    const menuItem = await this.restaurantModel.findOne({ _id: restaurantId, "menu.id": id }).select("menu.$").exec();
+    return menuItem;
+  }
+
   async updateRestaurant(id: string, updateRestaurantDto: UpdateRestaurantDto) {
     const restaurant = await this.restaurantModel
       .findOne({ _id: id })
@@ -110,8 +115,9 @@ export class RestaurantService {
     );
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} restaurant`;
+  async remove(id: string) {
+    this.restaurantModel.deleteOne({ _id: id }).exec();
+    return true;
   }
 
   async activateRestaurant(id: string) {
@@ -142,33 +148,51 @@ export class RestaurantService {
     return update;
   }
 
-  async activateMenuItem(id: string) {
+  async activateMenuItem(restaurantId: string, id: string) {
+    // const menuItem = await this.restaurantModel
+    //   .findOne({ menu: { $elemMatch: {id: id} } })
+    //   .exec();
+
     const menuItem = await this.restaurantModel
-      .findOne({ menu: { $elemMatch: {id: id} } })
+      .findOne({ _id: restaurantId, "menu.id": id })
       .exec();
 
     if(!menuItem) throw new Error('Menu item not found');
 
+    // const activation = await this.restaurantModel.updateOne(
+    //   { menu: { $elemMatch: {id: id} } },
+    //   { $set: { "menu.$[inner].isActive": true } },
+    //   { arrayFilters: [ { "inner.id": id } ] }
+    // );
+
     const activation = await this.restaurantModel.updateOne(
-      { menu: { $elemMatch: {id: id} } },
-      { $set: { "menu.$[inner].isActive": true } },
-      { arrayFilters: [ { "inner.id": id } ] }
+      { _id: restaurantId, "menu.id": id },
+      { $set: { "menu.$.isActive": true } }
     );
 
     return activation;
   }
 
-  async deactivateMenuItem(id: string) {
+  async deactivateMenuItem(restaurantId: string, id: string) {
+    // const menuItem = await this.restaurantModel
+    //   .findOne({ menu: { $elemMatch: {id: id} } })
+    //   .exec();
+
     const menuItem = await this.restaurantModel
-      .findOne({ menu: { $elemMatch: {id: id} } })
+      .findOne({ _id: restaurantId, "menu.id": id })
       .exec();
 
-    if(!menuItem) throw new Error('Menu item not found');
-    
+    if (!menuItem) throw new Error('Menu item not found');
+
+    // const deactivation = await this.restaurantModel.updateOne(
+    //   { menu: { $elemMatch: {id: id} } },
+    //   { $set: { "menu.$[inner].isActive": false } },
+    //   { arrayFilters: [ { "inner.id": id } ] }
+    // );
+
     const deactivation = await this.restaurantModel.updateOne(
-      { menu: { $elemMatch: {id: id} } },
-      { $set: { "menu.$[inner].isActive": false } },
-      { arrayFilters: [ { "inner.id": id } ] }
+      { _id: restaurantId, "menu.id": id },
+      { $set: { "menu.$.isActive": false } }
     );
 
     return deactivation;

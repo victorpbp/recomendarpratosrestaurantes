@@ -37,6 +37,11 @@ export class RestaurantController {
     return this.restaurantService.findOne(id);
   }
 
+  @Get(':restaurantId/menuitem/:id')
+  findOneMenuItem(@Param('restaurantId') restaurantId: string, @Param('id') id: string) {
+    return this.restaurantService.findOneMenuItem(restaurantId, id);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateRestaurantDto: UpdateRestaurantDto) {
     return this.restaurantService.updateRestaurant(id, updateRestaurantDto);
@@ -52,24 +57,24 @@ export class RestaurantController {
     return this.restaurantService.remove(id);
   }
 
-  @Patch('activate/:id')
+  @Patch(':id/activate')
   activateRestaurant(@Param('id') id: string) {
     return this.restaurantService.activateRestaurant(id);
   }
 
-  @Patch('deactivate/:id')
+  @Patch(':id/deactivate')
   deactivateRestaurant(@Param('id') id: string) {
     return this.restaurantService.deactivateRestaurant(id);
   }
 
-  @Patch('activate/menuitem/:id')
-  activateMenuItem(@Param('id') id: string) {
-    return this.restaurantService.activateMenuItem(id);
+  @Patch(':restaurantId/activate/menuitem/:id')
+  activateMenuItem(@Param('restaurantId') restaurantId: string, @Param('id') id: string) {
+    return this.restaurantService.activateMenuItem(restaurantId, id);
   }
 
-  @Patch('deactivate/menuitem/:id')
-  deactivateMenuItem(@Param('id') id: string) {
-    return this.restaurantService.deactivateMenuItem(id);
+  @Patch(':restaurantId/deactivate/menuitem/:id')
+  deactivateMenuItem(@Param('restaurantId') restaurantId: string, @Param('id') id: string) {
+    return this.restaurantService.deactivateMenuItem(restaurantId, id);
   }
 
 }
